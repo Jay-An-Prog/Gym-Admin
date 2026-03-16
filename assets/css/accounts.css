@@ -1,0 +1,66 @@
+/* Accounts Tables & Sub-tabs */
+#createdAccounts table,
+#pendingAccounts table,
+#registeredAccounts table,
+table {
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#accounts table {
+    margin-top: 20px;
+}
+
+.sub-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.sub-tabs button {
+    flex: 1;
+    padding: 12px 16px;
+    background: #34495e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.sub-tabs button svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.sub-tabs button:hover {
+    background: #1abc9c;
+}
+
+.sub-tabs .active {
+    background: #1abc9c;
+}
+
+.sub-section {
+    display: none;
+}
+
+.sub-section.active {
+    display: block;
+}
+
+#accounts input[type="text"] {
+    padding: 8px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
