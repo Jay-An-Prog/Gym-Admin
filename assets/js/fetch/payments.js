@@ -137,10 +137,10 @@ fetchTransactionsForDate(currentDate);
 document.getElementById("downloadPdf").addEventListener("click", () => {
     const table = document.querySelector("#payments table");
 
-    // Optional: wrap table in a temporary container for styling
+    // PDF options
     const opt = {
         margin:       0.5,
-        filename:     `Payment_Records_${getTodayKey()}.pdf`,
+        filename:     `Payment_Records_${formatDate(currentDate)}.pdf`, // <-- fix here
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2 },
         jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
