@@ -189,17 +189,16 @@ function renderPayments() {
 
 // =========================
 // FETCH TRANSACTIONS
-// forceRefresh = false by default
 // =========================
-function fetchTransactions(forceRefresh = false) {
+function fetchTransactions() {
     if (fetchTimeout) clearTimeout(fetchTimeout);
 
     fetchTimeout = setTimeout(async () => {
         const filterKey = getFilterKey();
         const cacheKey = `${currentFilter}_${filterKey}`;
 
-        // skip cache when refreshing
-        if (!forceRefresh && transactionsCache[cacheKey]) {
+        // CACHE HIT
+        if (transactionsCache[cacheKey]) {
             const cached = transactionsCache[cacheKey];
             transactionsLoaded = true;
 
@@ -216,15 +215,11 @@ function fetchTransactions(forceRefresh = false) {
             return;
         }
 
-        // remove old cache if refreshing
-        if (forceRefresh) {
-            delete transactionsCache[cacheKey];
-        }
-
         transactionsLoaded = false;
 
         try {
             if (currentFilter === "daily") {
+                // DAILY = fetch raw docs
                 const transactionsCol = collection(db, "transactions");
                 const q = query(transactionsCol, where("date", "==", filterKey));
                 const snapshot = await getDocs(q);
@@ -250,9 +245,11 @@ function fetchTransactions(forceRefresh = false) {
 
                 renderPayments();
                 updateDateDisplay();
+                console.log(`Loaded daily:`, filterKey);
                 return;
             }
 
+            // MONTHLY / YEARLY = fetch 1 stats doc
             const statsRef = getStatsDocRef();
             const statsSnap = await getDoc(statsRef);
 
@@ -264,6 +261,7 @@ function fetchTransactions(forceRefresh = false) {
 
                 renderPayments();
                 updateDateDisplay();
+                console.log(`No stats found for:`, currentFilter, filterKey);
                 return;
             }
 
@@ -275,6 +273,7 @@ function fetchTransactions(forceRefresh = false) {
 
             renderPayments();
             updateDateDisplay();
+            console.log(`Loaded ${currentFilter}:`, filterKey);
 
         } catch (error) {
             console.error("Firestore error:", error);
@@ -361,7 +360,19 @@ document.getElementById("filterRange").addEventListener("change", (e) => {
 // REFRESH BUTTON
 // =========================
 document.getElementById("refreshBtn").addEventListener("click", () => {
-    fetchTransactions(true); // force reload
+    const filterKey = getFilterKey();
+    const cacheKey = `${currentFilter}_${filterKey}`;
+
+    // REMOVE current cache entry (force fresh fetch)
+    delete transactionsCache[cacheKey];
+
+    // RESET STATE
+    transactionsLoaded = false;
+    transactionsData = [];
+    summaryData = null;
+
+    // FETCH AGAIN
+    fetchTransactions();
 });
 
 // =========================
