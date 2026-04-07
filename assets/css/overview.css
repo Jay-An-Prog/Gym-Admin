@@ -1,0 +1,25 @@
+/* Cards (overview) */
+.card {
+    background: white;
+    padding: 24px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.card h4 {
+    color: #2c3e50;
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+.check-in-count {
+    font-size: 28px;
+}
+.total-payment {
+    font-size: 28px;
+}
