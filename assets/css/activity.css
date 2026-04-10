@@ -1,0 +1,25 @@
+.date-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; 
+    gap: 16px;
+}
+.date-box button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 12px;
+    margin: 20px 0;
+    border: none;
+    background: #34495e;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+}
+.date-box button:hover {
+    background: #1abc9c;
+}
+.calendar-btn {
+    width: 40px;
+}
